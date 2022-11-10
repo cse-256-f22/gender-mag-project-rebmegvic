@@ -1,10 +1,18 @@
 // ---- Define your dialogs  and panels here ----
 
-variable_name = define_new_effective_permissions("box")//
-$('#sidepanel').append(variable_name)
+//variable_name = define_new_effective_permissions("box", add_info_col = false)//
+//$('#sidepanel').append(variable_name)
 
 //tester = define_new_box("box")
-//print_out = define_print_out("printer")
+print_out = define_new_box("printer", add_info_col = false, which_permissions = null, val = 0)
+$('#sidepanel').append(print_out)
+
+print_out_2 = define_new_box("printer_2", add_info_col = false, which_permissions = null, val = 1)
+$('#sidepanel').append(print_out_2)
+
+print_out_3 = define_new_box("printer_3", add_info_col = false, which_permissions = null, val = 2)
+$('#sidepanel').append(print_out_3)
+
 
 // ---- Display file structure ----
 

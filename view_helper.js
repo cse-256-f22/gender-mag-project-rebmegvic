@@ -547,12 +547,10 @@ $('#filestructure').after('<div id="sidepanel" style="display:inline-block;width
 
 // define an element which will display effective permissions for a given file and user
 // It expects the file path to be stored in its *filepath* attribute, 
-// and the user name to be stored in its *username* attribute 
-// when either changes, the panel attempts to recalculate the effective permissions.
-// - id_prefix is a (required) unique string which will be prepended to all the generated elements.
-// - add_info_col is a boolean for whether you want a third column with "info" buttons (which do nothing by default)
-// - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
-function define_new_box(id_prefix, add_info_col = false, which_permissions = null){
+// this is what we will use to display our words 
+// It is an edited form of define_new_effective_permissions that will just display the words
+// we want it to
+function define_new_box(id_prefix, add_info_col = false, which_permissions = null, val = 0){
     // Set up the table:
     let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
     
@@ -560,48 +558,46 @@ function define_new_box(id_prefix, add_info_col = false, which_permissions = nul
     if(which_permissions === null) {
         which_permissions = Object.values(permissions)
     }
-    // add a row for each permission:
-    for(let p of which_permissions) {
-        let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
-        let row = $(`
-        <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}">
-            <td id="${id_prefix}_checkcell_${p_id}" class="effectivecheckcell" width="16px"></td>
-            <td id="${id_prefix}_name_${p_id}" class="effective_perm_name">${p}</td>
-        </tr>
-        `)
-        // If we want to add an additional info column (which does nothing by default)
-        if(add_info_col) {
-            row.append(`
-            <td id="${id_prefix}_${p_id}_info_cell" width="32px" style="text-align:right">
-                <span id="${id_prefix}_${p_id}_info_icon" class="fa fa-info-circle perm_info" permission_name="${p}" setting_container_id="${id_prefix}"/>
-            </td>`)
-        }
-        effective_container.append(row)
-    }
 
-   /* function define_print_out(id_prefix, add_info_col = false, which_permissions = null){
-        // Set up the table:
-        let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
-        
-        // If no subset of permissions is passed in, use all of them.
-        if(which_permissions === null) {
-            which_permissions = Object.values(permissions)
-        }
-        // add a row for each permission:
-        for(let p of which_permissions) {
+    // MODIFIED PART
+
+
+    words = [" "]  // This will hold a list of what we will want to print.
+  
+    if(val == 0){
+        words = ["Wondering how to remove permissions for some employees?", "- Click on the certain file you are intersted in",
+     "- Select the employee", "- Use the check marks to change their permissions", "- Click OK" ]
+    }
+    else if (val == 1){
+        words = ["Wondering how to change inherited permissions?", "- Click on advanced settings",
+     "- Uncheck ~Include inheritable permissions from this object's parent~ inherts","- Select apply"]
+    }
+    else if(val == 2){
+        words = ["How to add(A)/remove(B) employes","- Go to file of interest", 
+        "A.1 Click on add", "A.2. Add the employee you wish", "A.3. Check out other employees to see what permissions to add",
+        "B.1. Click on employee you wish to remove, notice that you will have to remove inherited permissions", "B.2. See above"]
+    }
+    counter = 0
+    //max = words.length
+    for(let p of which_permissions) {
+        if(counter >= words.length){ }
+        else{
             let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
             let row = $(`
-            test
-            `)
-            // If we want to add an additional info column (which does nothing by default)
-            if(add_info_col) {
-                row.append('test')
-            }
+            <tr id="${id_prefix}_row_${p_id}" permission_name= "hello" permission_id="${p_id}">
+                <td id="test_checkcell_test" class="effectivecheckcell" width="16px"></td>
+                <td id="test_name_test" class="effective_perm_name">${words[counter]}</td>
+            </tr>           
+            `)                                                      //^ in that ${ } is what will print!!
             effective_container.append(row)
-             }
-    }*/
+        }
+        counter = counter + 1
+    }
+
+    // END MODIFIED
 
     // Define how to update contents on attribute change:
+    
     let update_effective_contents = function(){
         // get current settings:
         let username = effective_container.attr('username')
