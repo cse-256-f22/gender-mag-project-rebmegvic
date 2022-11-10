@@ -8,7 +8,7 @@
 }
 
 .ui-selected { 
-    background: #007fff; 
+    background: #b7cbde; 
     color: white; 
 }
 
@@ -16,6 +16,11 @@
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+.header {
+    color: white; 
+    background: #b921b9; 
 }
 
 

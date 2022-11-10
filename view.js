@@ -1,6 +1,10 @@
 // ---- Define your dialogs  and panels here ----
 
+variable_name = define_new_effective_permissions("box")//
+$('#sidepanel').append(variable_name)
 
+//tester = define_new_box("box")
+//print_out = define_print_out("printer")
 
 // ---- Display file structure ----
 

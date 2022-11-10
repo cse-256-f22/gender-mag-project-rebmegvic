@@ -173,6 +173,28 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
         effective_container.append(row)
     }
 
+   /* function define_print_out(id_prefix, add_info_col = false, which_permissions = null){
+        // Set up the table:
+        let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
+        
+        // If no subset of permissions is passed in, use all of them.
+        if(which_permissions === null) {
+            which_permissions = Object.values(permissions)
+        }
+        // add a row for each permission:
+        for(let p of which_permissions) {
+            let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
+            let row = $(`
+            test
+            `)
+            // If we want to add an additional info column (which does nothing by default)
+            if(add_info_col) {
+                row.append('test')
+            }
+            effective_container.append(row)
+             }
+    }*/
+
     // Define how to update contents on attribute change:
     let update_effective_contents = function(){
         // get current settings:
@@ -519,3 +541,93 @@ $('#filestructure').css({
     'vertical-align': 'top'
 })
 $('#filestructure').after('<div id="sidepanel" style="display:inline-block;width:49%"></div>')
+
+
+/// here is me adding more things => we want to edit this box!!
+
+// define an element which will display effective permissions for a given file and user
+// It expects the file path to be stored in its *filepath* attribute, 
+// and the user name to be stored in its *username* attribute 
+// when either changes, the panel attempts to recalculate the effective permissions.
+// - id_prefix is a (required) unique string which will be prepended to all the generated elements.
+// - add_info_col is a boolean for whether you want a third column with "info" buttons (which do nothing by default)
+// - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
+function define_new_box(id_prefix, add_info_col = false, which_permissions = null){
+    // Set up the table:
+    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
+    
+    // If no subset of permissions is passed in, use all of them.
+    if(which_permissions === null) {
+        which_permissions = Object.values(permissions)
+    }
+    // add a row for each permission:
+    for(let p of which_permissions) {
+        let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
+        let row = $(`
+        <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}">
+            <td id="${id_prefix}_checkcell_${p_id}" class="effectivecheckcell" width="16px"></td>
+            <td id="${id_prefix}_name_${p_id}" class="effective_perm_name">${p}</td>
+        </tr>
+        `)
+        // If we want to add an additional info column (which does nothing by default)
+        if(add_info_col) {
+            row.append(`
+            <td id="${id_prefix}_${p_id}_info_cell" width="32px" style="text-align:right">
+                <span id="${id_prefix}_${p_id}_info_icon" class="fa fa-info-circle perm_info" permission_name="${p}" setting_container_id="${id_prefix}"/>
+            </td>`)
+        }
+        effective_container.append(row)
+    }
+
+   /* function define_print_out(id_prefix, add_info_col = false, which_permissions = null){
+        // Set up the table:
+        let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
+        
+        // If no subset of permissions is passed in, use all of them.
+        if(which_permissions === null) {
+            which_permissions = Object.values(permissions)
+        }
+        // add a row for each permission:
+        for(let p of which_permissions) {
+            let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
+            let row = $(`
+            test
+            `)
+            // If we want to add an additional info column (which does nothing by default)
+            if(add_info_col) {
+                row.append('test')
+            }
+            effective_container.append(row)
+             }
+    }*/
+
+    // Define how to update contents on attribute change:
+    let update_effective_contents = function(){
+        // get current settings:
+        let username = effective_container.attr('username')
+        let filepath = effective_container.attr('filepath')
+        // if both properties are set correctly:
+        if( username && username.length > 0 && (username in all_users) &&
+            filepath && filepath.length > 0 && (filepath in path_to_file)) {
+            //clear out the checkboxes:
+            effective_container.find(`.effectivecheckcell`).empty()
+
+            // Set checkboxes correctly for given file and user:
+            for(let p of which_permissions) {
+                let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
+                // if the actual model would allow an action with permission
+                if( allow_user_action(path_to_file[filepath], all_users[username], p)) {
+                    // This action is allowed. Find the checkbox cell and put a checkbox there.
+                    let this_checkcell = effective_container.find(`#${id_prefix}_checkcell_${p_id}`)
+                    this_checkcell.append(`<span id="${id_prefix}_checkbox_${p_id}" class="oi oi-check"/>`)
+                }
+            }
+        }
+    }
+
+    // call update_effective_contents when either username or filepath changes:
+    define_attribute_observer(effective_container, 'username', update_effective_contents)
+    define_attribute_observer(effective_container, 'filepath', update_effective_contents)
+    
+    return effective_container
+}
