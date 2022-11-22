@@ -581,8 +581,8 @@ function define_new_box(id_prefix, add_info_col = false, which_permissions = nul
         words = ["Wondering if an individual is in a group but doesn't have the correct permissions?",
         "- Click on the certain file you are interested in", 
         "- Select the individual you want to look at to check out their permissions", 
-        "- Select the group their in",
-         "- Change the permissions"]
+        "- Select the group they're in",
+         "- Change the permissions for the group and apply"]
     }
     counter = 0
     //max = words.length
