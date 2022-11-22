@@ -13,6 +13,9 @@ $('#sidepanel').append(print_out_2)
 print_out_3 = define_new_box("printer_3", add_info_col = false, which_permissions = null, val = 2)
 $('#sidepanel').append(print_out_3)
 
+print_out_4 = define_new_box("printer_4", add_info_col = false, which_permissions = null, val = 3)
+$('#sidepanel').append(print_out_4)
+
 
 // ---- Display file structure ----
 

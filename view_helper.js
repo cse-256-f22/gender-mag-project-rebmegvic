@@ -577,6 +577,13 @@ function define_new_box(id_prefix, add_info_col = false, which_permissions = nul
         "A.1 Click on add", "A.2. Add the employee you wish", "A.3. Check out other employees to see what permissions to add",
         "B.1. Click on employee you wish to remove, notice that you will have to remove inherited permissions", "B.2. See above"]
     }
+    else if (val == 3){
+        words = ["Wondering if an individual is in a group but doesn't have the correct permissions?",
+        "- Click on the certain file you are interested in", 
+        "- Select the individual you want to look at to check out their permissions", 
+        "- Select the group their in",
+         "- Change the permissions"]
+    }
     counter = 0
     //max = words.length
     for(let p of which_permissions) {
