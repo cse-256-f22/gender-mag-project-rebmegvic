@@ -565,24 +565,24 @@ function define_new_box(id_prefix, add_info_col = false, which_permissions = nul
     words = [" "]  // This will hold a list of what we will want to print.
   
     if(val == 0){
-        words = ["Wondering how to remove permissions for some employees?", "- Click on the certain file you are intersted in",
-     "- Select the employee", "- Use the check marks to change their permissions", "- Click OK" ]
+        words = ["Wondering how to remove permissions for some users?", "- Click on the certain file you are intersted in",
+     "- Select the user", "- Use the check marks to change their permissions", "- Click OK" ]
     }
     else if (val == 1){
         words = ["Wondering how to change inherited permissions?", "- Click on advanced settings",
      "- Uncheck ~Include inheritable permissions from this object's parent~ inherts","- Select apply"]
     }
     else if(val == 2){
-        words = ["How to add(A)/remove(B) employes","- Go to file of interest", 
-        "A.1 Click on add", "A.2. Add the employee you wish", "A.3. Check out other employees to see what permissions to add",
-        "B.1. Click on employee you wish to remove, notice that you will have to remove inherited permissions", "B.2. See above"]
+        words = ["How to add(A)/remove(B) users","- Go to file of interest", 
+        "A.1 Click on add", "A.2. Add the user you wish", "A.3. Check out other users to see what permissions to add",
+        "B.1. Click on user you wish to remove, notice that you will have to remove inherited permissions", "B.2. See above"]
     }
     else if (val == 3){
         words = ["Wondering if an individual is in a group but doesn't have the correct permissions?",
         "- Click on the certain file you are interested in", 
         "- Select the individual you want to look at to check out their permissions", 
         "- Select the group they're in",
-         "- Change the permissions for the group and apply"]
+        "- Change the permissions for the group and apply"]
     }
     counter = 0
     //max = words.length
